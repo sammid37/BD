@@ -17,25 +17,23 @@ public class Main {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
-    Loja loja = new Loja(
-      101, 
+    /*Loja loja = new Loja(
+      101,
       "Audio Sat",
       "12345599990"
-    );
+    );*/
       
     try {
-      Date dataNascimento = dateFormat.parse("01/01/1990");
+      Date dataNascimento = dateFormat.parse("15/06/1999");
       // Criar um cliente
       Cliente cliente = new Cliente(
-        1,                      // id
-        "Fulano",             // nome
-        dataNascimento,            // data_nasc
-        "123456789",           // tel
-        "fulano@email.com",  // email
+        "Roger",      // nome
+        dataNascimento,      // data_nasc
+        "123455559",         // tel
+        "roger@email.com",  // email
         "senha123",          // senha
-        1001,            // idCliente
-        "Flamengo",           // time
-        true              // onePiece
+        "Flamengo",          // time
+        true                 // onePiece
       );
 
       // Salvar o cliente no banco de dados
@@ -43,7 +41,7 @@ public class Main {
       clienteDAO.salvarCliente(cliente);
 
       // Criar um vendedor
-      Vendedor vendedor = new Vendedor(
+      /*Vendedor vendedor = new Vendedor(
         2,                       // id
         "Ciclano",             // nome
         dataNascimento,             // dataNascimento
@@ -56,11 +54,10 @@ public class Main {
 
       // Salvar o vendedor no banco de dados
       VendedorDAO vendedorDAO = new VendedorDAO();
-      vendedorDAO.salvarVendedor(vendedor);
+      vendedorDAO.salvarVendedor(vendedor);*/
 
     } catch (ParseException e) {
       e.printStackTrace();
     }
-    
   }
 }
