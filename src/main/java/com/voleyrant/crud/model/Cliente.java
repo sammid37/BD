@@ -10,10 +10,9 @@ public class Cliente extends User {
   // private Cidade cidade;
 
   // Construtor
-  public Cliente(int id, String nome, Date data_nasc, String tel, String email, String senha,
-                  int idCliente, String time, boolean onePiece /*, UF uf, Cidade cidade*/) {
-    super(id, nome, data_nasc, tel, email, senha);
-    this.idCliente = idCliente;
+  public Cliente(String nome, Date data_nasc, String tel, String email, String senha,
+                 String time, boolean onePiece /*, UF uf, Cidade cidade*/) {
+    super(nome, data_nasc, tel, email, senha);
     this.time = time;
     this.onePiece = onePiece;
     // this.uf = uf;

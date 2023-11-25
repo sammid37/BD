@@ -8,16 +8,15 @@ public class User {
   private Date dataNasc;
   private String tel;
   private String email;
-  // private String senha;
+  private String senha;
 
   // Construtor
-  public User(int id, String nome, Date dataNasc, String tel, String email, String senha) {
-    this.id = id;
+  public User(String nome, Date dataNasc, String tel, String email, String senha) {
     this.nome = nome;
     this.dataNasc = dataNasc;
     this.tel = tel;
     this.email = email;
-    // this.senha = senha;
+    this.senha = senha;
   }
 
   // Getters e Setters
@@ -34,6 +33,9 @@ public class User {
   public void setTel(String tel) { this.tel = tel; }  
 
   public String getEmail() { return email; }
-  public void setEmail(String email) { this.email = email; }  
+  public void setEmail(String email) { this.email = email; }
+
+  public String getSenha() { return senha; }
+  public void setSenha(String senha) { this.senha = senha; }
 
 }
