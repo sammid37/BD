@@ -1,32 +1,49 @@
 package src.main.java.com.voleyrant.crud.DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import src.main.java.com.voleyrant.crud.model.Cliente;
-import src.main.java.com.voleyrant.crud.util.Conn;
+import src.main.java.com.voleyrant.crud.util.ConnectionFactory;
 
 public class ClienteDAO {
   public void salvarCliente(Cliente cliente) {
-    Connection conexao = null;
+    Connection connection = null;
     PreparedStatement statement = null;
 
     try {
-      conexao = Conn.obterConexao();
-      String query = "INSERT INTO clientes (id, nome, data_nasc, tel, email, senha, id_cliente, time, one_piece, uf, cidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      statement = conexao.prepareStatement(query);
+      connection = ConnectionFactory.createConnectionToMySQL();
+      String query = "INSERT INTO clientes " +
+              "(nome, data_nasc, tel, email, senha, time, one_piece) " +
+              "VALUES " +
+              "(?, ?, ?, ?, ?, ?, ?)";
+      statement = connection.prepareStatement(query);
 
       // Setar os parâmetros do PreparedStatement com os valores do cliente
-      statement.setInt(1, cliente.getId());
-      statement.setString(2, cliente.getNome());
-      // ... adicionar os demais parâmetros conforme necessário
+      statement.setString(1, cliente.getNome());
+      statement.setDate(2, new Date(cliente.getDataNasc().getTime()));
+      statement.setString(3, cliente.getTel());
+      statement.setString(4, cliente.getEmail());
+      statement.setString(5, cliente.getSenha());
+      statement.setString(6, cliente.getTime());
+      statement.setBoolean(7, cliente.getFlagOP());
 
-      statement.executeUpdate();
-    } catch (SQLException e) {
+      statement.execute();
+    } catch (Exception e) {
       e.printStackTrace(); // Tratar a exceção, se necessário
     } finally {
-      Conn.fecharConexao(conexao);
+      try {
+        if (statement != null) {
+          statement.close();
+        }
+        if (connection != null) {
+          connection.close();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 }
