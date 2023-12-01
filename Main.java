@@ -5,11 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import src.main.java.com.voleyrant.crud.DAO.ClienteDAO;
-import src.main.java.com.voleyrant.crud.DAO.VendedorDAO;
-import src.main.java.com.voleyrant.crud.model.Cliente;
-import src.main.java.com.voleyrant.crud.model.Loja;
-import src.main.java.com.voleyrant.crud.model.Vendedor;
+import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
+import backend.src.main.java.com.voleyrant.revsky.DAO.VendedorDAO;
+import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
+import backend.src.main.java.com.voleyrant.revsky.model.Loja;
+import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
 
 public class Main {
   public static void main(String[] args) {
