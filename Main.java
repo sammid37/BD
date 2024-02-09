@@ -1,5 +1,5 @@
 // Projeto de Banco de Dados
-// Enthony Miguel e Samantha Medeiros
+// Enthony Miguel, Eduarda Donato e Samantha Medeiros
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +15,7 @@ public class Main {
   public static void main(String[] args) {
     System.out.println("Hello World.\n");
 
+    // Define padrão de datas
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
     /*Loja loja = new Loja(
@@ -24,21 +25,33 @@ public class Main {
     );*/
       
     try {
-      Date dataNascimento = dateFormat.parse("15/06/1999");
+      // inserir menu de opções
+
+      Date dataNascimento = dateFormat.parse("18/08/1998");
+
       // Criar um cliente
       Cliente cliente = new Cliente(
-        "Roger",      // nome
-        dataNascimento,      // data_nasc
+        "bernardo",              // nome
+        dataNascimento,          // data_nasc
         "123455559",         // tel
-        "roger@email.com",  // email
-        "senha123",          // senha
-        "Flamengo",          // time
-        true                 // onePiece
+        "bernardo@email.com", // email
+        "senha123",        // senha
+        "gremio",           // time
+        true,           // onePiece
+        "Rio Grande do Norte",        // estado
+        "Caicó"     // cidade
       );
 
+      
       // Salvar o cliente no banco de dados
       ClienteDAO clienteDAO = new ClienteDAO();
-      clienteDAO.salvarCliente(cliente);
+      clienteDAO.criarCliente(cliente);
+
+      // cliente.setNome("Juan");
+
+      clienteDAO.removerClientePorId(4);
+      
+      // clienteDAO.editarClientePorId(idCliente, cliente);
 
       // Criar um vendedor
       /*Vendedor vendedor = new Vendedor(
