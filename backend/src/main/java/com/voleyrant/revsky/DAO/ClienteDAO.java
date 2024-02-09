@@ -3,6 +3,8 @@ package backend.src.main.java.com.voleyrant.revsky.DAO;
 import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.util.ConnectionUtil;
@@ -12,6 +14,7 @@ public class ClienteDAO {
   public void criarCliente(Cliente cliente) {
     Connection connection = null;
     PreparedStatement statement = null;
+
     try {
       connection = ConnectionUtil.iniciarConexao();
       String query = "INSERT INTO clientes " +
@@ -41,6 +44,34 @@ public class ClienteDAO {
   }
 
   // READ
+  public Cliente lerClientePorId(int id) {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    Cliente cliente = null;
+    
+    try {
+      connection = ConnectionUtil.iniciarConexao();
+      String query = "SELECT * FROM clientes WHERE id_cliente = ?";
+
+      statement = ConnectionUtil.prepararQuery(connection, query);
+      
+      // Setar os parâmetros do PreparedStatement com os valores do cliente
+      statement.setInt(1, id);
+      resultSet = statement.executeQuery();
+      
+      if (resultSet.next()) {
+        cliente = extrairClienteDoResultSet(resultSet);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace(); // Tratar a exceção, se necessário
+    } finally {
+      ConnectionUtil.fecharConexao(connection, statement);
+    }
+
+    return cliente;
+  }
 
   // UPDATE
   public void editarClientePorId(int id, Cliente cliente) {
@@ -91,6 +122,23 @@ public class ClienteDAO {
     } finally {
       ConnectionUtil.fecharConexao(connection, statement);
     }
+  }
+
+  // utils
+  private Cliente extrairClienteDoResultSet(ResultSet resultSet) throws SQLException {
+    // Extrair dados do ResultSet e criar um objeto Cliente
+    // Supondo que a classe Cliente tenha um construtor apropriado para criar um objeto Cliente a partir dos dados do ResultSet
+    return new Cliente(
+        resultSet.getString("nome"),
+        resultSet.getDate("data_nasc"),
+        resultSet.getString("tel"),
+        resultSet.getString("email"),
+        resultSet.getString("senha"),
+        resultSet.getString("time"),
+        resultSet.getBoolean("one_piece"),
+        resultSet.getString("estado"),
+        resultSet.getString("cidade")
+    );
   }
 
 }
