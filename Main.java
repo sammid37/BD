@@ -13,7 +13,6 @@ import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
 
 public class Main {
   public static void main(String[] args) {
-    System.out.println("Hello World.\n");
 
     // Define padrão de datas
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -25,34 +24,41 @@ public class Main {
     );*/
       
     try {
-      // inserir menu de opções
+      //*TODO: inserir menu de opções
 
       Date dataNascimento = dateFormat.parse("18/08/1998");
 
-      // Criar um cliente
-      Cliente cliente = new Cliente(
-        "bernardo",              // nome
-        dataNascimento,          // data_nasc
-        "123455559",         // tel
-        "bernardo@email.com", // email
-        "senha123",        // senha
-        "gremio",           // time
-        true,           // onePiece
-        "Rio Grande do Norte",        // estado
-        "Caicó"     // cidade
-      );
+      //------------------------------------ CRUD Cliente
+    
+      // Cliente cliente = new Cliente(
+      //   "bernardo",              // nome
+      //   dataNascimento,          // data_nasc
+      //   "123455559",         // tel
+      //   "bernardo@email.com", // email
+      //   "senha123",        // senha
+      //   "gremio",           // time
+      //   true,           // onePiece
+      //   "Rio Grande do Norte",        // estado
+      //   "Caicó"     // cidade
+      // );
+      // clienteDAO.criarCliente(cliente); // CREATE 
 
-      
-      // Salvar o cliente no banco de dados
+      Cliente cliente;
       ClienteDAO clienteDAO = new ClienteDAO();
-      clienteDAO.criarCliente(cliente);
-
-      // cliente.setNome("Juan");
-
-      clienteDAO.removerClientePorId(4);
+    
+      cliente = clienteDAO.lerClientePorId(5); // READ
       
+      if (cliente != null) {
+        System.out.println("Cliente encontrado: " + cliente);
+      } else {
+        System.out.println("Cliente não encontrado.");
+      }
+      
+      // cliente.setNome("Juan"); // UPDATE
       // clienteDAO.editarClientePorId(idCliente, cliente);
+      // clienteDAO.removerClientePorId(4); // DELETE
 
+      //------------------------------------ CRUD Vendedor
       // Criar um vendedor
       /*Vendedor vendedor = new Vendedor(
         2,                       // id
