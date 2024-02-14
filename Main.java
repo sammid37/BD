@@ -7,6 +7,8 @@ import java.util.Date;
 
 import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
 import backend.src.main.java.com.voleyrant.revsky.DAO.VendedorDAO;
+import backend.src.main.java.com.voleyrant.revsky.DAO.ProdutoDAO;
+import backend.src.main.java.com.voleyrant.revsky.DAO.PedidoDAO;
 import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.model.Loja;
 import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
