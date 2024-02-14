@@ -7,5 +7,5 @@ public enum TipoProduto {
   CONTROLE,
   SKY,
   SUPORTE,
-  SERVIÇO
+  SERVICO
 }
