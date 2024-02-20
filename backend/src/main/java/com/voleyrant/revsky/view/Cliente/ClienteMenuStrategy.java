@@ -4,9 +4,20 @@ import java.util.Scanner;
 
 import java.text.ParseException;
 
+import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
 
 public class ClienteMenuStrategy implements MenuStrategy {
+//  private CatalogoLoja catalogoLoja;
+  private boolean usuarioLogado;
+//
+//  public ClienteMenuStrategy(CatalogoLoja catalogoLoja) {
+//    this.catalogoLoja = catalogoLoja;
+//  }
+  @Override
+  public void setUsuarioLogado(boolean usuarioLogado) {
+    this.usuarioLogado = usuarioLogado;
+  }
   @Override
   public void exibirMenu() {
     System.out.println("\nCLIENTE");

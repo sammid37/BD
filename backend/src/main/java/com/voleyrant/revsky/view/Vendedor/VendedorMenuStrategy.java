@@ -5,6 +5,12 @@ import java.util.Scanner;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
 
 public class VendedorMenuStrategy implements MenuStrategy {
+  private boolean usuarioLogado;
+
+  @Override
+  public void setUsuarioLogado(boolean usuarioLogado) {
+    this.usuarioLogado = usuarioLogado;
+  }
   @Override
   public void exibirMenu() {
     System.out.println("\nVENDEDOR");
