@@ -16,8 +16,12 @@ CREATE TABLE clientes (
     email VARCHAR(255),
     senha VARCHAR(255),
     time VARCHAR(255),
-    one_piece BOOLEAN
+    one_piece BOOLEAN,
+    cidade VARCHAR(255),
+    estado VARCHAR(255)
 );
+
+SELECT * FROM clientes; 
 -- DROP TABLE vendedores;
 -- CREATE TABLE vendedores (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,3 +34,4 @@ CREATE TABLE clientes (
 --     loja_id INT,
 --     FOREIGN KEY (loja_id) REFERENCES lojas(id)
 -- );
+select * from vendedores;
