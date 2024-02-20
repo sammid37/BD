@@ -1,19 +1,12 @@
 // Projeto de Banco de Dados
 // Enthony Miguel, Eduarda Donato e Samantha Medeiros
 
-import java.util.Date;
 import java.util.Scanner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import backend.src.main.java.com.voleyrant.revsky.model.Loja;
-import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
-import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
-
-import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
-import backend.src.main.java.com.voleyrant.revsky.DAO.VendedorDAO;
-
+import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuContext;
 import backend.src.main.java.com.voleyrant.revsky.view.DefaultMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Cliente.ClienteMenuStrategy;
@@ -24,38 +17,47 @@ public class Main {
     MenuContext menuContext = new MenuContext();
 
     Scanner input = new Scanner(System.in);
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    
-    String tipoUsuario = "cliente"; // Altere para "cliente" para testar o menu do cliente
+
+    // TODO: Fazer a autenticação e Lógica para obter o tipo de usuário
+    String tipoUsuario = "cliente";
+
+    boolean usuarioLogado = false;
+    CatalogoLoja catalogoLoja = new CatalogoLoja();
 
     int opcao = 0;
-    boolean logado = false;
-    
+
     try {
       while(true) {
-        if (logado) {
-          if (tipoUsuario.equals("cliente")) {
+        /*if (!usuarioLogado) {
+           TODO: Fazer a autenticação
+           usuarioLogado = autenticarUsuario(input);
+           TODO: Lógica para obter o tipo de usuário
+           if (usuarioLogado) {
+             tipoUsuario = "vendedor";
+           }
+        }*/
+
+        // Exibe o menu com base no contexto: usuário usuarioLogado (Cliente ou Vendedor) ou !usuarioLogado
+        if (usuarioLogado) {
+          if (tipoUsuario.equalsIgnoreCase("cliente")) {
             menuContext.setMenuStrategy(new ClienteMenuStrategy());
-          } else if (tipoUsuario.equals("vendedor")) {
+          } else if (tipoUsuario.equalsIgnoreCase("vendedor")) {
             menuContext.setMenuStrategy(new VendedorMenuStrategy());
           } else {
             System.out.println("Tipo de usuário inválido");
-            return;
           }
         } else {
-          menuContext.setMenuStrategy(new DefaultMenuStrategy());
+          menuContext.setMenuStrategy(new DefaultMenuStrategy(catalogoLoja));
         }
-    
-        // Exibe menu com base no login
+
         menuContext.exibirMenu();
-        
         System.out.print("Digite uma opção: ");
-        opcao = input.nextInt();      
-  
+        opcao = input.nextInt();
+
         menuContext.selecionarOpcao(opcao, input);
-  
+
         // Condição de saída do loop
-        if ((logado && opcao == 4) || (!logado && opcao == 5)) {
+        if ((usuarioLogado && opcao == 4) || (!usuarioLogado && opcao == 5)) {
           break;
         }
       }
