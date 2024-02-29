@@ -1,82 +1,70 @@
 // Projeto de Banco de Dados
 // Enthony Miguel, Eduarda Donato e Samantha Medeiros
 
+import java.util.Scanner;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
-import backend.src.main.java.com.voleyrant.revsky.DAO.VendedorDAO;
-import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
-import backend.src.main.java.com.voleyrant.revsky.model.Loja;
-import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
+import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
+import backend.src.main.java.com.voleyrant.revsky.view.MenuContext;
+import backend.src.main.java.com.voleyrant.revsky.view.DefaultMenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.view.Cliente.ClienteMenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.view.Vendedor.VendedorMenuStrategy;
 
 public class Main {
   public static void main(String[] args) {
+    MenuContext menuContext = new MenuContext();
 
-    // Define padrão de datas
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    
-    /*Loja loja = new Loja(
-      101,
-      "Audio Sat",
-      "12345599990"
-    );*/
-      
+    Scanner input = new Scanner(System.in);
+
+    // TODO: Fazer a autenticação e Lógica para obter o tipo de usuário
+    String tipoUsuario = "cliente";
+
+    boolean usuarioLogado = false;
+    CatalogoLoja catalogoLoja = new CatalogoLoja();
+
+    int opcao = 0;
+
     try {
-      //*TODO: inserir menu de opções
+      while(true) {
+        /*if (!usuarioLogado) {
+           TODO: Fazer a autenticação
+           usuarioLogado = autenticarUsuario(input);
+           TODO: Lógica para obter o tipo de usuário
+           if (usuarioLogado) {
+             tipoUsuario = "vendedor";
+           }
+        }*/
 
-      Date dataNascimento = dateFormat.parse("18/08/1998");
+        // Exibe o menu com base no contexto: usuário usuarioLogado (Cliente ou Vendedor) ou !usuarioLogado
+        if (usuarioLogado) {
+          if (tipoUsuario.equalsIgnoreCase("cliente")) {
+            menuContext.setMenuStrategy(new ClienteMenuStrategy());
+          } else if (tipoUsuario.equalsIgnoreCase("vendedor")) {
+            menuContext.setMenuStrategy(new VendedorMenuStrategy());
+          } else {
+            System.out.println("Tipo de usuário inválido");
+          }
+        } else {
+          menuContext.setMenuStrategy(new DefaultMenuStrategy(catalogoLoja));
+        }
 
-      //------------------------------------ CRUD Cliente
-    
-      // Cliente cliente = new Cliente(
-      //   "bernardo",              // nome
-      //   dataNascimento,          // data_nasc
-      //   "123455559",         // tel
-      //   "bernardo@email.com", // email
-      //   "senha123",        // senha
-      //   "gremio",           // time
-      //   true,           // onePiece
-      //   "Rio Grande do Norte",        // estado
-      //   "Caicó"     // cidade
-      // );
-      // clienteDAO.criarCliente(cliente); // CREATE 
+        menuContext.exibirMenu();
+        System.out.print("Digite uma opção: ");
+        opcao = input.nextInt();
 
-      Cliente cliente;
-      ClienteDAO clienteDAO = new ClienteDAO();
-    
-      cliente = clienteDAO.lerClientePorId(5); // READ
-      
-      if (cliente != null) {
-        System.out.println("Cliente encontrado: " + cliente);
-      } else {
-        System.out.println("Cliente não encontrado.");
+        menuContext.selecionarOpcao(opcao, input);
+
+        // Condição de saída do loop
+        if ((usuarioLogado && opcao == 4) || (!usuarioLogado && opcao == 5)) {
+          break;
+        }
       }
-      
-      // cliente.setNome("Juan"); // UPDATE
-      // clienteDAO.editarClientePorId(idCliente, cliente);
-      // clienteDAO.removerClientePorId(4); // DELETE
-
-      //------------------------------------ CRUD Vendedor
-      // Criar um vendedor
-      /*Vendedor vendedor = new Vendedor(
-        2,                       // id
-        "Ciclano",             // nome
-        dataNascimento,             // dataNascimento
-        "987654321",            // tel
-        "ciclano@email.com",  // email
-        "senha456",           // senha
-        2001,            // idVendedor
-        loja                        // loja
-      );
-
-      // Salvar o vendedor no banco de dados
-      VendedorDAO vendedorDAO = new VendedorDAO();
-      vendedorDAO.salvarVendedor(vendedor);*/
-
-    } catch (ParseException e) {
+    } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      input.close();
     }
   }
 }
