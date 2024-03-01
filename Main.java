@@ -3,14 +3,12 @@
 
 import java.util.Scanner;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuContext;
 import backend.src.main.java.com.voleyrant.revsky.view.DefaultMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Cliente.ClienteMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Vendedor.VendedorMenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
 
 public class Main {
   public static void main(String[] args) {
@@ -19,10 +17,12 @@ public class Main {
     Scanner input = new Scanner(System.in);
 
     // TODO: Fazer a autenticação e Lógica para obter o tipo de usuário
-    String tipoUsuario = "cliente";
+    String tipoUsuario = "vendedor";
 
-    boolean usuarioLogado = false;
+    boolean usuarioLogado = true;
     CatalogoLoja catalogoLoja = new CatalogoLoja();
+    ProdutoMenu produtoMenu = new ProdutoMenu();
+
 
     int opcao = 0;
 
@@ -50,6 +50,7 @@ public class Main {
           menuContext.setMenuStrategy(new DefaultMenuStrategy(catalogoLoja));
         }
 
+        //menuContext.menuUsuario();
         menuContext.exibirMenu();
         System.out.print("Digite uma opção: ");
         opcao = input.nextInt();

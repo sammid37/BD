@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import backend.src.main.java.com.voleyrant.revsky.enumeracoes.TipoProduto;
 import backend.src.main.java.com.voleyrant.revsky.model.Produto;
 import backend.src.main.java.com.voleyrant.revsky.util.ConnectionUtil;
 
@@ -69,16 +70,20 @@ public class ProdutoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "UPDATE produtos SET idProduto = ?, tipoProduto = ?, titulo = ?, descricao = ?, estoque = ?, preco = ? WHERE id_produto = ?";
+            String query = "UPDATE produtos SET tipo = ?, titulo = ?, descricao = ?, estoque = ?, preco = ? WHERE id_produto = ?";
             
             statement = ConnectionUtil.prepararQuery(connection, query);
 
-            statement.setInt(1, produto.getIdProduto());
-            statement.setString(2, produto.getTipoProduto().name()); //
-            statement.setString(3, produto.getTitulo());
-            statement.setString(4, produto.getDescricao());
-            statement.setInt(5, produto.getEstoque());
-            statement.setDouble(6, produto.getPreco());
+            //statement.setInt(1, produto.getIdProduto());
+            statement.setString(1, produto.getTipoProduto().name()); //
+            statement.setString(2, produto.getTitulo());
+            statement.setString(3, produto.getDescricao());
+            statement.setInt(4, produto.getEstoque());
+            statement.setDouble(5, produto.getPreco());
+            statement.setInt(6, id);
+
+            statement.execute();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -106,12 +111,14 @@ public class ProdutoDAO {
     }
 
     private Produto extrairProdutoDoResultSet(ResultSet resultSet) throws SQLException{
+        String tipostring = resultSet.getString("tipo");
+        TipoProduto tipo = TipoProduto.valueOf(tipostring);
         return new Produto(
-            resultSet.getInt("id_produto"), 
-            null, 
-            resultSet.getString("titulo"), 
-            resultSet.getString("descricao"), 
-            resultSet.getInt("estoque"), 
+            //resultSet.getInt("id_produto"),
+            tipo,
+            resultSet.getString("titulo"),
+            resultSet.getString("descricao"),
+            resultSet.getInt("estoque"),
             resultSet.getDouble("preco")
         );
     }
