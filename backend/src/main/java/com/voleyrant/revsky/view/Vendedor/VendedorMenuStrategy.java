@@ -1,10 +1,13 @@
 package backend.src.main.java.com.voleyrant.revsky.view.Vendedor;
 
+import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
+
+import java.text.ParseException;
 import java.util.Scanner;
 
-import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
-
 public class VendedorMenuStrategy implements MenuStrategy {
+  ProdutoMenu produtoMenu = new ProdutoMenu();
   private boolean usuarioLogado;
 
   @Override
@@ -21,10 +24,14 @@ public class VendedorMenuStrategy implements MenuStrategy {
   }
 
   @Override
-  public void selecionarOpcao(int opcao, Scanner input) {
+  public void selecionarOpcao(int opcao, Scanner input) throws ParseException {
     switch (opcao) {
       case 1:
         System.out.println("Gerenciar Produtos");
+        produtoMenu.exibirMenu();
+        System.out.println("Digite uma opção: ");
+        opcao = input.nextInt();
+        produtoMenu.selecionarOpcao(opcao, input);
         // gerenciarProdutos()
         break;
       case 2:

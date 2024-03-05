@@ -12,14 +12,12 @@ public class Produto {
 
   // Construtor
   public Produto (
-    int idProduto, 
     TipoProduto tipo, 
     String titulo, 
     String descricao, 
     int estoque, 
     double preco
   ) {
-    this.idProduto = idProduto;
     this.tipo = tipo;
     this.titulo = titulo;
     this.descricao = descricao;
@@ -29,7 +27,7 @@ public class Produto {
 
   // Métodos Get e Set de cada atributo
   public int getIdProduto() { return idProduto; }
-  public void setIdProduto(int idProduto) { this.idProduto = idProduto; }  
+  public void setIdProduto(int idProduto) { this.idProduto = idProduto; }
 
   public String getTitulo() { return titulo; }
   public void setTitulo(String titulo) { this.titulo = titulo; }
