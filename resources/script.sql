@@ -23,20 +23,15 @@ CREATE TABLE clientes (
 
 SELECT * FROM clientes; 
 -- DROP TABLE vendedores;
--- CREATE TABLE vendedores (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     nome VARCHAR(255),
---     data_nasc DATE,
---     tel VARCHAR(20),
---     email VARCHAR(255),
---     senha VARCHAR(255),
---     id_vendedor INT,
---     loja_id INT,
---     FOREIGN KEY (loja_id) REFERENCES lojas(id)
--- );
+CREATE TABLE vendedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    data_nasc DATE,
+    tel VARCHAR(20),
+    email VARCHAR(255),
+    senha VARCHAR(255)
+);
 select * from vendedores;
-
-
 
 CREATE TABLE produtos (
     id_produto INT AUTO_INCREMENT  PRIMARY KEY,
@@ -44,7 +39,7 @@ CREATE TABLE produtos (
     titulo VARCHAR(20),
     descricao VARCHAR(255),
     estoque INT,
-    preco DOUBLE,
+    preco DOUBLE
 );
 
 SELECT * FROM produtos;

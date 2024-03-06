@@ -124,10 +124,36 @@ public class ClienteDAO {
     }
   }
 
+  public Cliente buscarPorEmail(String email) {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    Cliente cliente = null;
+
+    try {
+      connection = ConnectionUtil.iniciarConexao();
+      String query = "SELECT * FROM clientes WHERE email = ?";
+
+      statement = ConnectionUtil.prepararQuery(connection, query);
+
+      // Setar os parâmetros do PreparedStatement com os valores do cliente
+      statement.setString(1, email);
+      resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        cliente = extrairClienteDoResultSet(resultSet);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      ConnectionUtil.fecharConexao(connection, statement);
+    }
+    return cliente;
+  }
+
   // utils
   private Cliente extrairClienteDoResultSet(ResultSet resultSet) throws SQLException {
     // Extrair dados do ResultSet e criar um objeto Cliente
-    // Supondo que a classe Cliente tenha um construtor apropriado para criar um objeto Cliente a partir dos dados do ResultSet
     return new Cliente(
         resultSet.getString("nome"),
         resultSet.getDate("data_nasc"),
@@ -140,5 +166,4 @@ public class ClienteDAO {
         resultSet.getString("cidade")
     );
   }
-
 }

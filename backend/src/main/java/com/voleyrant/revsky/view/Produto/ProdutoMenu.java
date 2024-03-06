@@ -1,14 +1,10 @@
 package backend.src.main.java.com.voleyrant.revsky.view.Produto;
 
-import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
-import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.DAO.ProdutoDAO;
 import backend.src.main.java.com.voleyrant.revsky.model.Produto;
 import backend.src.main.java.com.voleyrant.revsky.enumeracoes.TipoProduto;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 import static backend.src.main.java.com.voleyrant.revsky.enumeracoes.TipoProduto.CONECTOR;
@@ -36,6 +32,7 @@ public class ProdutoMenu {
                 break;
             case 3:
                 System.out.println("Ler Produto");
+                // TODO: listar todos e listar por id (opção digitada pode ser um número ou a palavra 'todos')
                 lerProduto(input);
                 // Abrir catálogo
                 break;
@@ -55,14 +52,15 @@ public class ProdutoMenu {
     public Produto cadastroProduto(Scanner input) throws ParseException {
         ProdutoDAO produtoDAO = new ProdutoDAO();
 
-        TipoProduto tipo = CONECTOR;
+        TipoProduto tipo;
         String titulo, descricao;
         int estoque;
         double preco;
 
         System.out.println("Cadastro de Produto");
-        System.out.print("\nDigite o tipo de Produto: ");
-        //tipo = input.next();
+        System.out.print("\nDigite o tipo de Produto (CONECTOR, CABO, RECEPTOR, CONTROLE, SKY, SUPORTE, SERVICO): ");
+        String tipoStr = input.next();
+        tipo = TipoProduto.valueOf(tipoStr.toUpperCase());
 
         System.out.print("\nDigite o nome do Produto: ");
         titulo = input.next();

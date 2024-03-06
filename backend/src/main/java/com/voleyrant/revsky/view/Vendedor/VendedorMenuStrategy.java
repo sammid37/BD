@@ -8,12 +8,7 @@ import java.util.Scanner;
 
 public class VendedorMenuStrategy implements MenuStrategy {
   ProdutoMenu produtoMenu = new ProdutoMenu();
-  private boolean usuarioLogado;
 
-  @Override
-  public void setUsuarioLogado(boolean usuarioLogado) {
-    this.usuarioLogado = usuarioLogado;
-  }
   @Override
   public void exibirMenu() {
     System.out.println("\nVENDEDOR");
@@ -32,7 +27,6 @@ public class VendedorMenuStrategy implements MenuStrategy {
         System.out.println("Digite uma opção: ");
         opcao = input.nextInt();
         produtoMenu.selecionarOpcao(opcao, input);
-        // gerenciarProdutos()
         break;
       case 2:
         System.out.println("Gerenciar Pedidos");
@@ -44,7 +38,6 @@ public class VendedorMenuStrategy implements MenuStrategy {
         break;
       case 4: 
         System.out.println("Sair");
-        // sair()
         break;
       default:
         System.out.println("Opção inválida, tente novamente.");
