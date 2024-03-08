@@ -10,7 +10,8 @@ public class Cliente extends User {
   private String estado;
 
   // Construtor
-  public Cliente( String nome, 
+  public Cliente( int idCliente,
+                  String nome,
                   Date data_nasc, 
                   String tel, 
                   String email, 
@@ -18,6 +19,23 @@ public class Cliente extends User {
                   String time, 
                   boolean onePiece, 
                   String estado, 
+                  String cidade) {
+    super(nome, data_nasc, tel, email, senha);
+    this.idCliente = idCliente;
+    this.time = time;
+    this.onePiece = onePiece;
+    this.cidade = cidade;
+    this.estado = estado;
+  }
+
+  public Cliente( String nome,
+                  Date data_nasc,
+                  String tel,
+                  String email,
+                  String senha,
+                  String time,
+                  boolean onePiece,
+                  String estado,
                   String cidade) {
     super(nome, data_nasc, tel, email, senha);
     this.time = time;
@@ -45,6 +63,7 @@ public class Cliente extends User {
   @Override
   public String toString() {
     return "Cliente {" +
+      " id_cliente='" + getIdCliente() + '\'' +
       " nome='" + getNome() + '\'' +
       ", dataNasc='" + getDataNasc() + "'\'" +
       ", telefone='" + getTel() + "'\'" +

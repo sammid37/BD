@@ -36,7 +36,6 @@ public class CatalogoLoja {
         }
       } else {
         System.out.println("Retornando para o menu principal");
-        // chamada do menu principal
       }
     }
 
