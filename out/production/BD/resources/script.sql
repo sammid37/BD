@@ -35,3 +35,16 @@ SELECT * FROM clientes;
 --     FOREIGN KEY (loja_id) REFERENCES lojas(id)
 -- );
 select * from vendedores;
+
+
+
+CREATE TABLE produtos (
+    id_produto INT AUTO_INCREMENT  PRIMARY KEY,
+    tipo VARCHAR(20),
+    titulo VARCHAR(20),
+    descricao VARCHAR(255),
+    estoque INT,
+    preco DOUBLE,
+);
+
+SELECT * FROM produtos;
