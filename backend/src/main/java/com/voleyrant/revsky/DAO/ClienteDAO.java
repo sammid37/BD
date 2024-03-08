@@ -61,9 +61,7 @@ public class ClienteDAO {
       resultSet = statement.executeQuery();
       
       if (resultSet.next()) {
-        System.out.println("Oi");
         cliente = extrairClienteDoResultSet(resultSet);
-        System.out.println("haha");
       }
 
     } catch (Exception e) {
