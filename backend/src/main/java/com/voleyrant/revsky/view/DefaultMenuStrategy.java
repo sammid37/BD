@@ -2,6 +2,7 @@ package backend.src.main.java.com.voleyrant.revsky.view;
 
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -11,6 +12,7 @@ import backend.src.main.java.com.voleyrant.revsky.DAO.VendedorDAO;
 import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
 import backend.src.main.java.com.voleyrant.revsky.service.AuthService;
+import backend.src.main.java.com.voleyrant.revsky.util.ValidateUtil;
 import backend.src.main.java.com.voleyrant.revsky.view.Cliente.ClienteMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Vendedor.VendedorMenuStrategy;
 
@@ -93,7 +95,7 @@ public void realizarLogin(Scanner input) throws ParseException {
 
   if (tipoUsuario != null) {
     menuContext.setMenuStrategy(
-            tipoUsuario.equals("cliente") ? new ClienteMenuStrategy(catalogoLoja) : new VendedorMenuStrategy()
+            tipoUsuario.equals("cliente") ? new ClienteMenuStrategy(catalogoLoja, authService) : new VendedorMenuStrategy()
     );
     try {
       while(true) {
@@ -115,37 +117,73 @@ public void realizarLogin(Scanner input) throws ParseException {
 public void cadastroCliente(Scanner input) throws ParseException {
   ClienteDAO clienteDAO = new ClienteDAO();
   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
   String nome, telefone, email, senha, nascimento, time, cidade, estado;
   boolean onePiece = true;
 
   Date dataNascimento;
 
-  System.out.println("Cadastro");
+  System.out.print("\nCadastro");
   System.out.print("\nDigite seu nome: ");
-  nome = input.nextLine();
+  nome = input.next();
 
-  System.out.print("\nDigite sua data de Nascimento: ");
-  nascimento = input.next();
-  dataNascimento = dateFormat.parse(nascimento);
+  while (true) {
+    System.out.print("\nDigite sua data de Nascimento (dd/MM/yyyy): ");
+    nascimento = input.next();
+    try {
+      dataNascimento = dateFormat.parse(nascimento);
+      Date dataAtual = new Date();
+      if (dataNascimento.after(new Date())) {
+        System.out.print("\nData de nascimento inválida. Por favor, digite uma data no passado.");
+        continue;
+      }
+      // Calcular idade
+      Calendar calNascimento = Calendar.getInstance();
+      calNascimento.setTime(dataNascimento);
+      Calendar calAtual = Calendar.getInstance();
+      calAtual.setTime(dataAtual);
+      int idade = calAtual.get(Calendar.YEAR) - calNascimento.get(Calendar.YEAR);
+      if (calAtual.get(Calendar.DAY_OF_YEAR) < calNascimento.get(Calendar.DAY_OF_YEAR)) {
+        idade--;
+      }
+      if (idade < 18) {
+        System.out.print("\nVocê deve ter no mínimo 18 anos para se cadastrar.");
+        continue;
+      }
+      break;
+    } catch (ParseException e) {
+      System.out.print("\nFormato de data inválido. Por favor, digite a data no formato dd/MM/yyyy.");
+    }
+  }
 
-  System.out.print("\nDigite seu telefone: ");
+  System.out.print("\nDigite seu telefone (XX)?XXXX-XXXX: ");
   telefone = input.next();
+  while (!ValidateUtil.validarTelefone(telefone)) {
+    System.out.print("\nTelefone inválido. Digite novamente: ");
+    telefone = input.next();
+  }
 
   System.out.print("\nDigite seu e-mail: ");
   email = input.next();
+  while (!ValidateUtil.validarEmail(email)) {
+    System.out.print("\nE-mail inválido. Digite novamente: ");
+    email = input.next();
+  }
 
   System.out.print("\nDigite seu senha: ");
   senha = input.next();
 
   System.out.print("\nDigite seu time: ");
-  time = input.nextLine();
+  time = input.next();
 
   System.out.print("\nDigite seu cidade: ");
-  cidade = input.nextLine();
+  cidade = input.next();
 
   System.out.print("\nDigite seu estado (Sigla): ");
   estado = input.next();
+  while (!ValidateUtil.validarEstado(estado)) {
+    System.out.print("\nSigla inválida. Digite novamente: ");
+    estado = input.next();
+  }
 
   Cliente cliente = new Cliente(
           nome,

@@ -5,14 +5,22 @@ import java.util.Scanner;
 import java.text.ParseException;
 
 import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
+import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
+import backend.src.main.java.com.voleyrant.revsky.service.AuthService;
+import backend.src.main.java.com.voleyrant.revsky.util.ValidateUtil;
 import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
 
 public class ClienteMenuStrategy implements MenuStrategy {
   private CatalogoLoja catalogoLoja;
+  private ProdutoMenu produtoMenu;
 
-  public ClienteMenuStrategy(CatalogoLoja catalogoLoja) {
+  private AuthService authService;
+
+  public ClienteMenuStrategy(CatalogoLoja catalogoLoja, AuthService authService) {
     this.catalogoLoja = catalogoLoja;
+    this.authService = authService;
   }
 
   @Override
@@ -32,11 +40,11 @@ public class ClienteMenuStrategy implements MenuStrategy {
         break;
       case 2:
         System.out.println("Meus Pedidos");
-        // meusPedidos()
+        meusPedidos();
         break;
       case 3: 
         System.out.println("Ver catálogo");
-        // Abrir catálogo
+        catalogoLoja.exibirProdutos(input, true);
         break;
       case 4: 
         System.out.println("Sair");
@@ -47,6 +55,8 @@ public class ClienteMenuStrategy implements MenuStrategy {
     }
   }
   public void meuPerfil(Scanner input) {
+    int clientId = authService.obterIdClienteLogado();
+
     System.out.println("Meu perfil");
     System.out.println("1 - Atualizar o perfil");
     System.out.println("2 - Excluir conta");  // TODO: ver se é necessário ter essa opção
@@ -55,7 +65,7 @@ public class ClienteMenuStrategy implements MenuStrategy {
     int opcao = input.nextInt();
     switch (opcao) {
       case 1:
-        atualizarPerfil(input);
+        atualizarPerfil(input, clientId);
         break;
       case 2:  // TODO: ver se é necessário ter essa opção
         System.out.println("Excluir conta");
@@ -69,14 +79,20 @@ public class ClienteMenuStrategy implements MenuStrategy {
     }
   }
 
-  public void atualizarPerfil(Scanner input) {
+  public void atualizarPerfil(Scanner input, int clientId) {
     ClienteDAO clienteDAO = new ClienteDAO();
+    Cliente cliente = clienteDAO.lerClientePorId(clientId);
+    System.out.println(clientId);
+
+    System.out.println(cliente.getNome());
     System.out.println("1 - Atualizar email");
     System.out.println("2 - Atualizar senha");
     System.out.println("3 - Atualizar telefone");
     System.out.println("4 - Atualizar cidade e estado");
+    System.out.println("5 - Cancelar atualização");
 
-    String opcoes = input.nextLine();
+    System.out.println("\nDigite a opção desejada: ");
+    String opcoes = input.next();
 
     String[] opcoesArray = opcoes.split(",");
 
@@ -85,37 +101,70 @@ public class ClienteMenuStrategy implements MenuStrategy {
       System.out.println("Você deve escolher entre 1 e 4 opções.");
       return;
     }
-    // TODO: inserir métodos e capturar o ID do cliente logado!
+
     for (String opcao : opcoesArray) {
       switch (opcao.trim()) { // Remova espaços em branco extras e converta para int
         case "1":
           System.out.println("Atualizando email...");
           System.out.println("Informe o novo email: ");
-
-          // Lógica para atualizar o email
+          String novoEmail = input.next();
+          if(ValidateUtil.validarEmail(novoEmail)) {
+            clienteDAO.atualizarEmail(novoEmail, clientId);
+          } else {
+            System.out.println("Email inválido!");
+          }
           break;
         case "2":
           System.out.println("Atualizando senha...");
           System.out.println("Informe a senha atual: ");
+          String senhaAtual = input.next();
 
-          System.out.println("Informe a nova senha: ");
-          System.out.println("Valide a nova email: ");
-          // Lógica para atualizar a senha
+          // Verifica se a senha atual é válida
+          if (senhaAtual.equals(cliente.getSenha())) {
+            System.out.print("Informe a nova senha: ");
+            String novaSenha = input.next();
+
+            System.out.print("Valide a nova senha: ");
+            String validarSenha = input.next();
+
+            // Verifica se as novas senhas correspondem
+            if (novaSenha.equals(validarSenha)) {
+              // Atualiza a senha no banco de dados
+              clienteDAO.atualizarSenha(novaSenha, clientId);
+              System.out.println("Senha atualizada com sucesso!");
+            } else {
+              System.out.println("As novas senhas não correspondem. Tente novamente.");
+            }
+          } else {
+            System.out.println("Senha atual incorreta. Tente novamente.");
+          }
           break;
         case "3":
           System.out.println("Atualizando telefone...");
-          // Lógica para atualizar o telefone
+          System.out.println("Informe o novo telefone: ");
+          String novoTel = input.next();
+          if (ValidateUtil.validarTelefone(novoTel)) {
+            clienteDAO.atualizarTelefone(novoTel, clientId);
+          } else {
+            System.out.println("Telefone inválido!");
+          }
           break;
         case "4":
           System.out.println("Atualizando cidade e estado...");
-          // Lógica para atualizar a cidade e o estado
+          System.out.println("Informe a cidade: ");
+          String novaCidade = input.nextLine();
+          System.out.println("Informe o estado: ");
+          String novoEstado = input.nextLine();
+          clienteDAO.atualizarCidadeEstado(novaCidade, novoEstado, clientId);
           break;
         default:
           System.out.println("Opção inválida: " + opcao);
           break;
       }
     }
+  }
 
-    input.close();
+  public void meusPedidos() {
+    System.out.println("Meus pedidos");
   }
 }
