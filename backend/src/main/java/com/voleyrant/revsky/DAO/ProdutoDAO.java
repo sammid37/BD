@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import backend.src.main.java.com.voleyrant.revsky.enumeracoes.TipoProduto;
 import backend.src.main.java.com.voleyrant.revsky.model.Produto;
 import backend.src.main.java.com.voleyrant.revsky.util.ConnectionUtil;
@@ -22,7 +25,7 @@ public class ProdutoDAO {
                             "VALUES " +
                             "(?, ?, ?, ?, ?)";
             statement = ConnectionUtil.prepararQuery(connection, query);
-            
+
             statement.setString(1, produto.getTipoProduto().name()); //
             statement.setString(2, produto.getTitulo());
             statement.setString(3, produto.getDescricao());
@@ -62,6 +65,32 @@ public class ProdutoDAO {
             ConnectionUtil.fecharConexao(connection, statement);
         }
         return produto;
+    }
+
+
+    public List<Produto> listarProdutos() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Produto> produtos = new ArrayList<>();
+
+        try {
+            connection = ConnectionUtil.iniciarConexao();
+            String query = "SELECT * FROM produtos";
+
+            statement = ConnectionUtil.prepararQuery(connection, query);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Produto produto = extrairProdutoDoResultSet(resultSet);
+                produtos.add(produto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionUtil.fecharConexao(connection, statement, resultSet);
+        }
+        return produtos;
     }
 
     public void editarProdutoPorId(int id, Produto produto){
@@ -114,7 +143,7 @@ public class ProdutoDAO {
         String tipostring = resultSet.getString("tipo");
         TipoProduto tipo = TipoProduto.valueOf(tipostring);
         return new Produto(
-            //resultSet.getInt("id_produto"),
+            resultSet.getInt("id_produto"),
             tipo,
             resultSet.getString("titulo"),
             resultSet.getString("descricao"),

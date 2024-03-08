@@ -12,11 +12,26 @@ public class Produto {
 
   // Construtor
   public Produto (
+    int idProduto,
     TipoProduto tipo, 
     String titulo, 
     String descricao, 
     int estoque, 
     double preco
+  ) {
+    this.idProduto = idProduto;
+    this.tipo = tipo;
+    this.titulo = titulo;
+    this.descricao = descricao;
+    this.estoque = estoque;
+    this.preco = preco;
+  }
+  public Produto (
+          TipoProduto tipo,
+          String titulo,
+          String descricao,
+          int estoque,
+          double preco
   ) {
     this.tipo = tipo;
     this.titulo = titulo;
