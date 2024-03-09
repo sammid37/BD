@@ -1,15 +1,14 @@
 package backend.src.main.java.com.voleyrant.revsky.DAO;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
+import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.model.Vendedor;
 import backend.src.main.java.com.voleyrant.revsky.util.ConnectionFactory;
+import backend.src.main.java.com.voleyrant.revsky.util.ConnectionUtil;
 
 public class VendedorDAO {
-  public void salvarVendedor(Vendedor vendedor) {
+  public void criarVendedor(Vendedor vendedor) {
     Connection connection = null;
     PreparedStatement statement = null;
 
@@ -46,4 +45,42 @@ public class VendedorDAO {
       }
     }
   }
+  public Vendedor buscarPorEmail(String email) {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    Vendedor vendedor = null;
+
+    try {
+      connection = ConnectionUtil.iniciarConexao();
+      String query = "SELECT * FROM vendedores WHERE email = ?";
+
+      statement = ConnectionUtil.prepararQuery(connection, query);
+
+      // Setar os parâmetros do PreparedStatement com os valores do cliente
+      statement.setString(1, email);
+      resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        vendedor = extrairVendedorDoResultSet(resultSet);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      ConnectionUtil.fecharConexao(connection, statement);
+    }
+    return vendedor;
+  }
+
+  private Vendedor extrairVendedorDoResultSet(ResultSet resultSet) throws SQLException {
+    // Extrair dados do ResultSet e criar um objeto Vendedor
+    return new Vendedor(
+            resultSet.getString("nome"),
+            resultSet.getDate("data_nasc"),
+            resultSet.getString("tel"),
+            resultSet.getString("email"),
+            resultSet.getString("senha")
+    );
+  }
+
 }

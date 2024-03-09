@@ -1,7 +1,9 @@
 package backend.src.main.java.com.voleyrant.revsky.view;
 
+import backend.src.main.java.com.voleyrant.revsky.DAO.ProdutoDAO;
 import backend.src.main.java.com.voleyrant.revsky.model.Produto;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CatalogoLoja {
@@ -9,6 +11,7 @@ public class CatalogoLoja {
   public void exibirProdutos(Scanner input, boolean usuarioLogado) {
     System.out.println("\nCatálogo Loja");
     System.out.println("Código | Nome Produto | Valor | Estoque");
+    listarProdutosCatalogo();
 
       /* TODO:
        * -[] Exibir todos os produtos
@@ -36,11 +39,27 @@ public class CatalogoLoja {
         }
       } else {
         System.out.println("Retornando para o menu principal");
-        // chamada do menu principal
       }
     }
 
     public void exibirDescricaoProduto(Produto produto) {
         System.out.println("Exibir descrição do produto <Nome do produto>");
     }
+
+  public void listarProdutosCatalogo() {
+    ProdutoDAO produtoDAO = new ProdutoDAO();
+
+    List<Produto> produtos = produtoDAO.listarProdutos();
+
+    if (produtos != null && !produtos.isEmpty()) {
+      for (Produto produto : produtos) {
+        System.out.println(produto.getIdProduto()+" | "+ produto.getTitulo()+" | "+produto.getPreco()+" | "+produto.getEstoque());
+        System.out.println("---------------------------");
+      }
+    } else {
+      System.out.println("\nNenhum produto encontrado.");
+    }
+  }
+
 }
+
