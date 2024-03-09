@@ -20,8 +20,8 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "INSERT INTO pedido " +
-                           "(idClientePedido, idVendedorPedido, valorTotal, desconto, formaPagamento, status) " +
+            String query = "INSERT INTO pedidos " +
+                           "(id_cliente_pedido, id_vendedor_pedido, valor_total, desconto, forma_pagamento, status) " +
                             "VALUES " + "(?, ?, ?, ?, ?, ?)";
             statement = ConnectionUtil.prepararQuery(connection, query);
 
