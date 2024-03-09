@@ -71,6 +71,7 @@ public class ClienteMenuStrategy implements MenuStrategy {
         // Personalizar a exibição de cada pedido, (a ver se realemnte é encessário no código0
         System.out.println(pedido);
       }
+      //
     } else {
       System.out.println("Nenhum pedido encontrado para este cliente.");
     }

@@ -49,17 +49,17 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "SELECT * FROM pedido";
+            String query = "SELECT * FROM pedidos";
             statement = ConnectionUtil.prepararQuery(connection, query);
             resultSet = statement.executeQuery();
             // Iterando sobre o ResultSet para extrair os dados de cada pedido
             while (resultSet.next()) {
-                int idPedido = resultSet.getInt("idPedido");
-                int idClientePedido = resultSet.getInt("idClientePedido");
-                int idVendedorPedido = resultSet.getInt("idVendedorPedido");
-                double valorTotal = resultSet.getDouble("valorTotal");
+                int idPedido = resultSet.getInt("id_pedido");
+                int idClientePedido = resultSet.getInt("id_cliente_pedido");
+                int idVendedorPedido = resultSet.getInt("id_vendedor_pedido");
+                double valorTotal = resultSet.getDouble("valor_total");
                 double desconto = resultSet.getDouble("desconto");
-                FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("formaPagamento"));
+                FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("forma_pagamento"));
                 StatusPedido status = StatusPedido.valueOf(resultSet.getString("status"));
 
                 Pedido pedido = new Pedido(idPedido, idClientePedido, idVendedorPedido, null, valorTotal, desconto, formaPagamento, status);
@@ -80,7 +80,7 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "UPDATE pedido SET idClientePedido = ?, idVendedorPedido = ?, valorTotal = ?, desconto = ?, formaPagamento = ?, status = ? WHERE idPedido = ?";
+            String query = "UPDATE pedidos SET id_cliente_pedido = ?, id_vendedor_pedido = ?, valor_total = ?, desconto = ?, forma_pagamento = ?, status = ? WHERE id_pedido = ?";
             statement = ConnectionUtil.prepararQuery(connection, query);
             // Setando os parâmetros do PreparedStatement com os valores do pedido
             statement.setInt(1, pedido.getIdClientePedido());
@@ -105,7 +105,7 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "UPDATE pedido SET status = ? WHERE idPedido = ? AND idVendedorPedido = ?";
+            String query = "UPDATE pedidos SET status = ? WHERE id_pedido = ? AND id_vendedor_pedido = ?";
             statement = ConnectionUtil.prepararQuery(connection, query);
 
             // Setar os parâmetros do PreparedStatement com os valores do pedido
@@ -128,7 +128,7 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "DELETE FROM pedido WHERE idPedido = ?";
+            String query = "DELETE FROM pedidos WHERE id_pedido = ?";
             statement = ConnectionUtil.prepararQuery(connection, query);
             statement.setInt(1, idPedido);
             statement.executeUpdate();
@@ -147,17 +147,17 @@ public class PedidoDAO {
 
         try {
             connection = ConnectionUtil.iniciarConexao();
-            String query = "SELECT * FROM pedido WHERE idPedido = ?";
+            String query = "SELECT * FROM pedidos WHERE id_pedido = ?";
             statement = ConnectionUtil.prepararQuery(connection, query);
             statement.setInt(1, idPedido);
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                int idClientePedido = resultSet.getInt("idClientePedido");
-                int idVendedorPedido = resultSet.getInt("idVendedorPedido");
-                double valorTotal = resultSet.getDouble("valorTotal");
+                int idClientePedido = resultSet.getInt("id_cliente_pedido");
+                int idVendedorPedido = resultSet.getInt("id_vendedor_pedido");
+                double valorTotal = resultSet.getDouble("valor_total");
                 double desconto = resultSet.getDouble("desconto");
-                FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("formaPagamento"));
+                FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("forma_pagamento"));
                 StatusPedido status = StatusPedido.valueOf(resultSet.getString("status"));
 
                 pedido = new Pedido(idPedido, idClientePedido, idVendedorPedido, null, valorTotal, desconto, formaPagamento, status);
@@ -172,12 +172,12 @@ public class PedidoDAO {
     }
     // Método auxiliar para extrair um objeto Pedido de um ResultSet
     private Pedido extrairPedidoDoResultSet(ResultSet resultSet) throws SQLException {
-        int idPedido = resultSet.getInt("idPedido");
-        int idClientePedido = resultSet.getInt("idClientePedido");
-        int idVendedorPedido = resultSet.getInt("idVendedorPedido");
-        double valorTotal = resultSet.getDouble("valorTotal");
+        int idPedido = resultSet.getInt("id_pedido");
+        int idClientePedido = resultSet.getInt("id_cliente_pedido");
+        int idVendedorPedido = resultSet.getInt("id_vendedor_pedido");
+        double valorTotal = resultSet.getDouble("valor_total");
         double desconto = resultSet.getDouble("desconto");
-        FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("formaPagamento"));
+        FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("forma_pagamento"));
         StatusPedido status = StatusPedido.valueOf(resultSet.getString("status")
         );
 
