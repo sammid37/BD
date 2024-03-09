@@ -98,6 +98,29 @@ public class PedidoDAO {
             ConnectionUtil.fecharConexao(connection, statement);
         }
     }
+    // Método para atualizar o status do pedido com base no ID do pedido e ID do vendedor
+    public void atualizarStatusPedido(int idPedido, int idVendedor, StatusPedido novoStatus) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionUtil.iniciarConexao();
+            String query = "UPDATE pedido SET status = ? WHERE idPedido = ? AND idVendedorPedido = ?";
+            statement = ConnectionUtil.prepararQuery(connection, query);
+
+            // Setar os parâmetros do PreparedStatement com os valores do pedido
+            statement.setString(1, novoStatus.toString());
+            statement.setInt(2, idPedido);
+            statement.setInt(3, idVendedor);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionUtil.fecharConexao(connection, statement);
+        }
+    }
+
     // Método para cancelar um pedido do banco de dados pelo seu ID
     public void cancelarPedido(int idPedido) {
         Connection connection = null;

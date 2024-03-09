@@ -1,11 +1,14 @@
 package backend.src.main.java.com.voleyrant.revsky.view.Cliente;
 
+import java.util.List;
 import java.util.Scanner;
 
 import java.text.ParseException;
 
+import backend.src.main.java.com.voleyrant.revsky.model.Pedido;
 import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
+import backend.src.main.java.com.voleyrant.revsky.DAO.PedidoDAO;
 
 public class ClienteMenuStrategy implements MenuStrategy {
 //  private CatalogoLoja catalogoLoja;
@@ -35,7 +38,8 @@ public class ClienteMenuStrategy implements MenuStrategy {
         break;
       case 2:
         System.out.println("Meus Pedidos");
-        // meusPedidos()
+        exibirPedidosCliente();
+
         break;
       case 3: 
         System.out.println("Ver catálogo");
@@ -48,6 +52,22 @@ public class ClienteMenuStrategy implements MenuStrategy {
       default:
         System.out.println("Opção inválida, tente novamente.");
         break;
+    }
+  }
+  // Método para exibir os pedidos do cliente
+  private void exibirPedidosCliente() {
+    PedidoDAO pedidoDAO = new PedidoDAO();
+    List<Pedido> pedidos = pedidoDAO.listarPedidos();
+
+    // Verifica se existem pedidos para o cliente
+    if (!((List<?>) pedidos).isEmpty()) {
+      System.out.println("Lista de Pedidos do Cliente:");
+      for (Pedido pedido : pedidos) {
+        // Personalizar a exibição de cada pedido, (a ver se realemnte é encessário no código0
+        System.out.println(pedido);
+      }
+    } else {
+      System.out.println("Nenhum pedido encontrado para este cliente.");
     }
   }
 }
