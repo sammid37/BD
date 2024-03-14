@@ -86,12 +86,12 @@ public class ProdutoMenu {
                 System.out.println("Tipo de Produto inválido. Tente novamente.");
             }
         } while (tipo == null);
-
+        input.nextLine();
         System.out.print("\nDigite o nome do Produto: ");
-        titulo = input.next();
+        titulo = input.nextLine();
 
         System.out.print("\nDigite a descricao do "+titulo+": ");
-        descricao = input.next();
+        descricao = input.nextLine();
 
         System.out.print("\nDigite a quantidade em estoque do "+titulo+": ");
         estoque = input.nextInt();
