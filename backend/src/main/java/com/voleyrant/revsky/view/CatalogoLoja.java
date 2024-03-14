@@ -61,5 +61,20 @@ public class CatalogoLoja {
     }
   }
 
+  public void LerProdutoPorNome(String nomeProduto) {
+    ProdutoDAO produtoDAO = new ProdutoDAO();
+
+    Produto produto = produtoDAO.lerProdutoPorNome(nomeProduto);
+
+    if (produto != null) {
+      System.out.println("\nProduto encontrado:");
+      System.out.println("Código | Nome Produto | Valor | Estoque");
+      System.out.println(produto.getIdProduto()+" | "+ produto.getTitulo()+" | "+produto.getPreco()+" | "+produto.getEstoque());
+      System.out.println("---------------------------");
+    } else {
+      System.out.println("\nProduto não encontrado.");
+    }
+  }
+
 }
 

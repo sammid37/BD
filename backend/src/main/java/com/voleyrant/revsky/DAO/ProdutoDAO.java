@@ -67,6 +67,32 @@ public class ProdutoDAO {
         return produto;
     }
 
+    public Produto lerProdutoPorNome(String nomeProduto){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Produto produto = null;
+
+        try{
+            connection = ConnectionUtil.iniciarConexao();
+            String query = "SELECT * FROM produtos WHERE titulo = ?";
+
+            statement = ConnectionUtil.prepararQuery(connection, query);
+
+            statement.setString(1, nomeProduto);
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()){
+                produto = extrairProdutoDoResultSet(resultSet);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionUtil.fecharConexao(connection, statement);
+        }
+        return produto;
+    }
+
 
     public List<Produto> listarProdutos() {
         Connection connection = null;

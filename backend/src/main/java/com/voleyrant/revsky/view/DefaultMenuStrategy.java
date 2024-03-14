@@ -34,8 +34,9 @@ public class DefaultMenuStrategy implements MenuStrategy {
     System.out.println("1 - Login"); // gerenciar produtos 
     System.out.println("2 - Cadastro");
     System.out.println("3 - Visualizar catálogo");
-    System.out.println("4 - Informações da loja");
-    System.out.println("5 - Encerrar aplicação"); 
+    System.out.println("4 - Visualizar produto");
+    System.out.println("5 - Informações da loja");
+    System.out.println("6 - Encerrar aplicação");
   }
 
   public void selecionarOpcao(int opcao, Scanner input) throws ParseException {
@@ -62,10 +63,16 @@ public class DefaultMenuStrategy implements MenuStrategy {
         catalogoLoja.exibirProdutos(input, usuarioLogado);
         break;
       case 4:
+        System.out.println("Visualizar produto");
+        System.out.println("Digite o nome do produto: ");
+        String nomeProduto = input.next();
+        catalogoLoja.LerProdutoPorNome(nomeProduto);
+        break;
+      case 5:
         System.out.println("Visualizar informações da loja");
         // info loja
         break;
-      case 5:
+      case 6:
         System.out.println("Encerrar aplicação");
         // Encerrar
         break;
