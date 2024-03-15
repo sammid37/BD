@@ -13,8 +13,6 @@ import backend.src.main.java.com.voleyrant.revsky.DAO.ClienteDAO;
 import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.service.AuthService;
 import backend.src.main.java.com.voleyrant.revsky.util.ValidateUtil;
-import backend.src.main.java.com.voleyrant.revsky.view.CatalogoLoja;
-import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
 
 public class ClienteMenuStrategy implements MenuStrategy {
@@ -22,6 +20,8 @@ public class ClienteMenuStrategy implements MenuStrategy {
   private ProdutoMenu produtoMenu;
 
   private AuthService authService;
+
+
 
   public ClienteMenuStrategy(CatalogoLoja catalogoLoja, AuthService authService) {
     this.catalogoLoja = catalogoLoja;
@@ -59,8 +59,8 @@ public class ClienteMenuStrategy implements MenuStrategy {
         break;
     }
   }
-  // Método para exibir os pedidos do cliente
-  private void exibirPedidosCliente() {
+  // Método para exibir todos os pedidos de todos os cliente
+  /*private void exibirPedidosCliente() {
     PedidoDAO pedidoDAO = new PedidoDAO();
     List<Pedido> pedidos = pedidoDAO.listarPedidos();
 
@@ -75,7 +75,27 @@ public class ClienteMenuStrategy implements MenuStrategy {
     } else {
       System.out.println("Nenhum pedido encontrado para este cliente.");
     }
+  }*/
+  private void exibirPedidosCliente() {
+    PedidoDAO pedidoDAO = new PedidoDAO();
+
+    // Obtendo o ID do cliente logado usando o authService
+    int idCliente = authService.obterIdClienteLogado();
+    List<Pedido> pedidos = pedidoDAO.listarPedidosPorClienteId(idCliente);
+
+    // Verifica se existem pedidos para o cliente
+    if (!pedidos.isEmpty()) {
+      System.out.println("Lista de Pedidos do Cliente:");
+      for (Pedido pedido : pedidos) {
+        // Personalizar a exibição de cada pedido (a ver se realemnte é encessário no código)
+        System.out.println(pedido.toString());
+      }
+      //exibição personalizada usando o método do java toString na classe model.
+    } else {
+      System.out.println("Nenhum pedido encontrado para este cliente.");
+    }
   }
+
   public void meuPerfil(Scanner input) {
     int clientId = authService.obterIdClienteLogado();
 

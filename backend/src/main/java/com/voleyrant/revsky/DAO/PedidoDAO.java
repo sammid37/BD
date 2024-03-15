@@ -73,6 +73,38 @@ public class PedidoDAO {
 
         return pedidos;
     }
+    public List<Pedido> listarPedidosPorClienteId(int idCliente) {
+        List<Pedido> pedidos = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionUtil.iniciarConexao();
+            String query = "SELECT * FROM pedido WHERE id_clientePedido = ?";
+            statement = ConnectionUtil.prepararQuery(connection, query);
+            statement.setInt(1, idCliente);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int idPedido = resultSet.getInt("id_pedido");
+                int idVendedorPedido = resultSet.getInt("id_vendedor_pedido");
+                double valorTotal = resultSet.getDouble("valor_total");
+                double desconto = resultSet.getDouble("desconto");
+                FormaPagamento formaPagamento = FormaPagamento.valueOf(resultSet.getString("forma_pagamento"));
+                StatusPedido status = StatusPedido.valueOf(resultSet.getString("status"));
+
+                Pedido pedido = new Pedido(idPedido, idCliente, idVendedorPedido, null, valorTotal, desconto, formaPagamento, status);
+                pedidos.add(pedido);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionUtil.fecharConexao(connection, statement, resultSet);
+        }
+
+        return pedidos;
+    }
     // Método para atualizar um pedido existente no banco de dados
     public void atualizarPedido(Pedido pedido) {
         Connection connection = null;

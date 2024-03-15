@@ -10,6 +10,7 @@ import backend.src.main.java.com.voleyrant.revsky.view.DefaultMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Cliente.ClienteMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Vendedor.VendedorMenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
+import backend.src.main.java.com.voleyrant.revsky.view.Pedido.PedidoMenu;
 
 public class Main {
   public static void main(String[] args) {
