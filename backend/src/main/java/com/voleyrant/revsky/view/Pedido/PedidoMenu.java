@@ -34,7 +34,9 @@ public class PedidoMenu {
                 break;
             default:
                 System.out.println("Opção inválida, tente novamente.");
+                System.out.println("Opção inválida, tente novamente.");
                 break;
+
         }
 
     }
