@@ -26,6 +26,21 @@ public class Pedido {
     this.formaPagamento = formaPagamento;
     this.status = status;
   }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("ID Pedido: ").append(getIdPedido()).append("\n");
+    sb.append("ID Cliente: ").append(getIdClientePedido()).append("\n");
+    sb.append("ID Vendedor: ").append(getIdVendedorPedido()).append("\n");
+    sb.append("Produtos: ").append(getItensPedido()).append("\n");
+    sb.append("Valor Total: ").append(getValorTotal()).append("\n");
+    sb.append("Desconto: ").append(getDesconto()).append("\n");
+    sb.append("Forma de Pagamento: ").append(getFormaPagamento()).append("\n");
+    sb.append("Status do Pedido: ").append(getStatusPedido()).append("\n");
+    return sb.toString();
+  }
+
+
 
   // Métodos Get e Set de cada atributo
   public int getIdPedido() { return idPedido; }
