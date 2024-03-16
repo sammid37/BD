@@ -1,9 +1,11 @@
 package backend.src.main.java.com.voleyrant.revsky.view.Vendedor;
 
+import backend.src.main.java.com.voleyrant.revsky.DAO.RelatorioDAO;
 import backend.src.main.java.com.voleyrant.revsky.view.MenuStrategy;
 import backend.src.main.java.com.voleyrant.revsky.view.Produto.ProdutoMenu;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class VendedorMenuStrategy implements MenuStrategy {
@@ -20,6 +22,7 @@ public class VendedorMenuStrategy implements MenuStrategy {
 
   @Override
   public void selecionarOpcao(int opcao, Scanner input) throws ParseException {
+    RelatorioDAO relatorioDAO = new RelatorioDAO();
     switch (opcao) {
       case 1:
         System.out.println("Gerenciar Produtos");
@@ -34,7 +37,13 @@ public class VendedorMenuStrategy implements MenuStrategy {
         break;
       case 3: 
         System.out.println("Gerar Relatório");
-        // Abrir catálogo
+        List<String> pedidosDoMes = relatorioDAO.obterPedidosDoMes();
+
+        for (String pedido : pedidosDoMes) {
+          System.out.println(pedido);
+        }
+
+        // relatorioDAO.gerarRelatorio();
         break;
       case 4: 
         System.out.println("Sair");

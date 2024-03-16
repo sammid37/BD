@@ -51,3 +51,36 @@ SELECT * FROM clientes;
 SELECT * FROM vendedores;
 SELECT * FROM produtos;
 SELECT * FROM pedidos;
+
+INSERT INTO pedidos VALUES (1, 1, 1, 35.00, 5.00, "PIX", "FINALIZADO") ;
+
+-- Geral
+SELECT
+	(SELECT COUNT(*) FROM clientes) AS TotalClientes,
+    (SELECT SUM(valor_total) from pedidos) AS ValorEmPedidos,
+	(SELECT COUNT(*) FROM pedidos) AS TotalPedidos,
+	(SELECT COUNT(*) FROM produtos) AS TotalProdutosCadastrados,
+    (SELECT COUNT(*) FROM produtos WHERE estoque > 0) AS TotalProdutosEmEstoque,
+	CURDATE() AS DataGeracaoRelatorio; -- Adiciona a data de geração do relatório
+      
+-- SELECT simplificado para pedidos      
+SELECT
+    p.id_pedido AS 'Id da Venda',
+    c.nome AS 'Nome do Cliente',
+    CONCAT('R$ ', FORMAT(p.valor_total, 2)) AS 'Valor do Pedido',
+    CONCAT('R$ ', FORMAT(p.desconto, 2)) AS 'Desconto',
+    CONCAT('R$ ', FORMAT(p.valor_total - p.desconto, 2)) AS 'Valor total da compra',
+    p.status AS 'Status'
+   -- DATE_FORMAT(p.data_venda, '%d/%m/%Y') AS 'Data da Venda'
+FROM
+    pedidos p
+JOIN
+    clientes c ON p.id_cliente_pedido = c.id_cliente;
+
+-- SELECT simples para obter descricao sobre produtos
+SELECT
+	prod.id_produto AS CodigoProduto, 
+    prod.titulo AS NomeProduto, 
+    prod.estoque AS QtdProdutosEstoque, 
+    prod.preco AS PrecoUnitario
+FROM produtos prod;
