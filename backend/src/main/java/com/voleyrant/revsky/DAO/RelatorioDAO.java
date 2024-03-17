@@ -11,38 +11,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RelatorioDAO {
-  public void gerarRelatorio(){
+  public String obterResumo(){
     Connection connection = null;
     PreparedStatement statement = null;
     ResultSet resultSet = null;
+    String resumoString = "";
     try {
       connection = ConnectionUtil.iniciarConexao();
-      String query = "SELECT \n" +
-              "    (SELECT COUNT(*) FROM clientes) AS TotalClientes,\n" +
-              "    (SELECT COUNT(*) FROM produtos) AS TotalProdutos,\n" +
-              "CURDATE() AS ReportDate;\n"; // Adiciona a data de geração do relatório
+      String query = "SELECT" +
+          "\nCURDATE() AS DataGeracaoRelatorio," +
+          "\n(SELECT COUNT(*) FROM clientes) AS 'Nº de Clientes Cadastrados'," +
+          "\n(SELECT COUNT(*) FROM pedidos WHERE pedidos.status = 'FINALIZADO') AS 'Nº de Pedidos (FINALIZADOS)'," +
+          "\nCONCAT('R$ ', FORMAT((SELECT SUM(valor_total - desconto) FROM pedidos WHERE pedidos.status = 'FINALIZADO'), 2)) AS 'Ganho em Pedidos'," +
+          "\n(SELECT COUNT(*) FROM produtos) AS 'Nº de Produtos Cadastrados'," +
+          "\n(SELECT COUNT(*) FROM produtos WHERE estoque > 0) AS 'Nº Total de Produtos em Estoque';";
 
       statement = ConnectionUtil.prepararQuery(connection, query);
       resultSet = statement.executeQuery();
-      // Iterar sobre os resultados e exibir cada linha
-      while (resultSet.next()) {
-        int totalClientes = resultSet.getInt("TotalClientes");
-        int totalProdutos = resultSet.getInt("TotalProdutos");
-        String reportDate = resultSet.getString("ReportDate");
 
-        System.out.println("Total de Clientes: " + totalClientes);
-        System.out.println("Total de Produtos: " + totalProdutos);
-        System.out.println("Data de Geração do Relatório: " + reportDate);
+      while (resultSet.next()) {
+        String reportDate = resultSet.getString("DataGeracaoRelatorio");
+        String totalClientes = resultSet.getString("Nº de Clientes Cadastrados");
+        String totalPedidosFinalizado = resultSet.getString("Nº de Pedidos (FINALIZADOS)");
+        String valorTotalPedidosFinalizados = resultSet.getString("Ganho em Pedidos");
+        String totalProdutos = resultSet.getString("Nº de Produtos Cadastrados");
+        String totalProdutosEStoque = resultSet.getString("Nº Total de Produtos em Estoque");
+
+        resumoString = "Data da geração do relatório " + reportDate +
+                "\n" + "Nº de Clientes Cadastrados: " + totalClientes +
+                "\n" + "Nº de Pedidos (FINALIZADOS): " + totalPedidosFinalizado +
+                ", " + "Ganho em Pedidos: " + valorTotalPedidosFinalizados +
+                "\n" + "Nº de Produtos Cadastrados: "+ totalProdutos + ", Nº Total de Produtos em Estoque: " + totalProdutosEStoque;
       }
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
       ConnectionUtil.fecharConexao(connection, statement);
     }
-  }
-
-  public void obterListaDeClientes() {
-    System.out.println("obter lista de clientes");
+    return resumoString;
   }
 
   public List<String> obterPedidosDoMes() {
@@ -89,5 +95,4 @@ public class RelatorioDAO {
     }
     return listaPedidos;
   }
-  public void obterDescricaoProd() {}
 }

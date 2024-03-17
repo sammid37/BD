@@ -1,0 +1,29 @@
+-----------------------------------------------------
+Data da geração do relatório 2024-03-16
+Nº de Clientes Cadastrados: 13
+ Nº de Pedidos (FINALIZADOS): 1, Ganho em Pedidos: R$ 30.00
+Nº de Produtos Cadastrados: 1, Nº Total de Produtos em Estoque: 1
+-----------------------------------------------------
+
+Relatório de Pedidos:
+1, Bia, R$ 35.00, R$ 5.00, R$ 30.00, FINALIZADO
+2, Bia, R$ 35.00, R$ 0.00, R$ 35.00, PENDENTE
+
+Relatório de Clientes:
+1,Bia,anaaa@email.com
+2,Joana,joana@email.com
+3,Luan,luan@email.com
+5,bernardo,bernardo@email.com
+6,bernardo,bernardo@email.com
+7,Ana,ana@mail.com
+8,Ana,anaaaaaaa@mail.com.be
+9,Maria,mariaaa@mail.com
+10,Enthony,enthony@email.com
+11,Samantha,samantha@gmail.com
+12,aninha,aninhaaaa@mail.com
+13,Enthony,enthony@mail.com
+14,EnthonyMiguel,enthonymiguel@gmail.com
+
+Relatório de Produtos:
+ID: 1, Tipo: CONECTOR, Título: ConectorRJ45, Descrição: internet, Estoque: 50, Preço: 2,00
+

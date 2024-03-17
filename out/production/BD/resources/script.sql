@@ -56,12 +56,13 @@ INSERT INTO pedidos VALUES (1, 1, 1, 35.00, 5.00, "PIX", "FINALIZADO") ;
 
 -- Geral
 SELECT
+	CURDATE() AS DataGeracaoRelatorio, -- Adiciona a data de geração do relatório,
 	(SELECT COUNT(*) FROM clientes) AS TotalClientes,
     (SELECT SUM(valor_total) from pedidos) AS ValorEmPedidos,
 	(SELECT COUNT(*) FROM pedidos) AS TotalPedidos,
 	(SELECT COUNT(*) FROM produtos) AS TotalProdutosCadastrados,
-    (SELECT COUNT(*) FROM produtos WHERE estoque > 0) AS TotalProdutosEmEstoque,
-	CURDATE() AS DataGeracaoRelatorio; -- Adiciona a data de geração do relatório
+    (SELECT COUNT(*) FROM produtos WHERE estoque > 0) AS TotalProdutosEmEstoque;
+	
       
 -- SELECT simplificado para pedidos      
 SELECT
@@ -79,8 +80,16 @@ JOIN
 
 -- SELECT simples para obter descricao sobre produtos
 SELECT
-	prod.id_produto AS CodigoProduto, 
-    prod.titulo AS NomeProduto, 
-    prod.estoque AS QtdProdutosEstoque, 
-    prod.preco AS PrecoUnitario
+	prod.id_produto AS "Código do Produto", 
+    prod.titulo AS "Nome do produto", 
+    prod.estoque AS "Quantidade em Estoque", 
+    prod.preco AS "Valor Unitário"
 FROM produtos prod;
+
+SELECT 
+	c.id_cliente AS 'ID Cliente', 
+    c.nome AS 'Nome do Cliente', 
+    c.email AS 'E-mail do Cliente' 
+FROM clientes c;
+
+
