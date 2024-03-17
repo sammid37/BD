@@ -47,9 +47,11 @@ public class ClienteMenuStrategy implements MenuStrategy {
         System.out.println("Meus Pedidos");
         exibirPedidosCliente();
         break;
-      case 3: 
+      case 3:
         System.out.println("Ver catálogo");
-        catalogoLoja.exibirProdutos(input, true);
+        int idCliente = authService.obterIdClienteLogado();
+        catalogoLoja.exibirProdutos(input, idCliente);
+
         break;
       case 4: 
         System.out.println("Sair");

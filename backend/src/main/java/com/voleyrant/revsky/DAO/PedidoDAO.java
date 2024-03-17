@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PedidoDAO {
     // Método para criar um novo pedido no banco de dados
-    public void criarPedido(Pedido pedido) {
+    public static void criarPedido(Pedido pedido) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -27,7 +27,7 @@ public class PedidoDAO {
 
             // Setar os parâmetros do PreparedStatement com os valores do Pedido
             statement.setInt(1, pedido.getIdClientePedido());
-            statement.setInt(2, pedido.getIdVendedorPedido());
+            statement.setInt(2, 1);
             statement.setDouble(3, pedido.getValorTotal());
             statement.setDouble(4, pedido.getDesconto());
             statement.setString(5, pedido.getFormaPagamento().toString());

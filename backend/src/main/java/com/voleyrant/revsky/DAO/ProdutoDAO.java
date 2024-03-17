@@ -177,4 +177,22 @@ public class ProdutoDAO {
             resultSet.getDouble("preco")
         );
     }
+    public void atualizarEstoque(int idProduto, int novoEstoque) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionUtil.iniciarConexao();
+            String query = "UPDATE produtos SET estoque = ? WHERE id_produto = ?";
+            statement = ConnectionUtil.prepararQuery(connection, query);
+            // Setar os parâmetros do PreparedStatement com o novo estoque e o ID do produto
+            statement.setInt(1, novoEstoque);
+            statement.setInt(2, idProduto);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionUtil.fecharConexao(connection, statement);
+        }
+    }
 }
