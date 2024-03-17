@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import backend.src.main.java.com.voleyrant.revsky.model.Cliente;
 import backend.src.main.java.com.voleyrant.revsky.util.ConnectionUtil;
@@ -44,6 +46,41 @@ public class ClienteDAO {
   }
 
   // READ
+  public List<String> lerTodosClientes() {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    List<String> listaClientes = new ArrayList<>();
+
+    try {
+      connection = ConnectionUtil.iniciarConexao();
+      String query = "SELECT\n" +
+              "  c.id_cliente AS 'ID Cliente', \n" +
+              "  c.nome AS 'Nome do Cliente', \n" +
+              "  c.email AS 'E-mail do Cliente' \n" +
+              "FROM clientes c;";
+
+      statement = ConnectionUtil.prepararQuery(connection, query);
+      resultSet = statement.executeQuery();
+
+      // Iterar sobre os resultados, armazenar cada linha
+      while (resultSet.next()) {
+        String idCliente = resultSet.getString("ID Cliente");
+        String nomeCliente = resultSet.getString("Nome do Cliente");
+        String emailCliente = resultSet.getString("E-mail do Cliente");
+
+        String clientesString = idCliente + "," + nomeCliente + "," + emailCliente;
+
+        listaClientes.add(clientesString);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      ConnectionUtil.fecharConexao(connection, statement);
+    }
+    return listaClientes;
+  }
+
   public Cliente lerClientePorId(int id) {
     Connection connection = null;
     PreparedStatement statement = null;

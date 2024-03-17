@@ -17,9 +17,6 @@ public class Main {
     MenuContext menuContext = new MenuContext();
 
     Scanner input = new Scanner(System.in);
-
-    String tipoUsuario = null;
-    boolean usuarioLogado = false;
     int opcao = 0;
 
     CatalogoLoja catalogoLoja = new CatalogoLoja();
@@ -34,7 +31,7 @@ public class Main {
         menuContext.selecionarOpcao(opcao, input);
 
         // Condição de saída do loop
-        if ((usuarioLogado && opcao == 4) || (!usuarioLogado && opcao == 5)) {
+        if (opcao == 6) {
           break;
         }
       }
