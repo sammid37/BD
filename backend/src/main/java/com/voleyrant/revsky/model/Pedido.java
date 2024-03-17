@@ -10,10 +10,14 @@ public class Pedido {
   private int idClientePedido;
   private int idVendedorPedido;
   private List<Produto> produtos;
-  private double valorTotal;
+  private double valorTotal; // após o desconto
   private double desconto;
   private FormaPagamento formaPagamento;
   private StatusPedido status;
+  private double valorPedido; // sem desconto
+  private String nomeCliente;
+
+  public Pedido() {}
 
   // Construtor
   public Pedido(int idPedido, int idClientePedido, int idVendedorPedido, List<Produto> produtos, double valorTotal, double desconto, FormaPagamento formaPagamento, StatusPedido status) {
@@ -45,8 +49,6 @@ public class Pedido {
     return sb.toString();
   }
 
-
-
   // Métodos Get e Set de cada atributo
   public int getIdPedido() { return idPedido; }
   public void setIdPedido(int idPedido) { this.idPedido = idPedido; }  
@@ -71,4 +73,20 @@ public class Pedido {
 
   public StatusPedido getStatusPedido() { return status; }
   public void setStatusPedido(StatusPedido status) { this.status = status; }
+
+  public double getValorPedido() {
+    return valorPedido;
+  }
+
+  public void setValorPedido(double valorPedido) {
+    this.valorPedido = valorPedido;
+  }
+
+  public String getNomeCliente() {
+    return nomeCliente;
+  }
+
+  public void setNomeCliente(String nomeCliente) {
+    this.nomeCliente = nomeCliente;
+  }
 }
