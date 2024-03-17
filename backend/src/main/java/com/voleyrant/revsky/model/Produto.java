@@ -9,6 +9,7 @@ public class Produto {
   private String descricao;
   private int estoque;
   private double preco;
+  private int quantidadeProduto;
 
   // Construtor
   public Produto (
@@ -57,5 +58,13 @@ public class Produto {
   public void setEstoque(int estoque) { this.estoque = estoque; }  
 
   public double getPreco() { return preco; }
-  public void setPreco(double preco) { this.preco = preco; }  
+  public void setPreco(double preco) { this.preco = preco; }
+
+  public void setQuantidadeProduto(int quantidade) {
+    this.quantidadeProduto = quantidade;
+  }
+
+  public int getQuantidadeProduto() {
+    return quantidadeProduto;
+  }
 }

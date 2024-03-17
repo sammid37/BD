@@ -60,7 +60,7 @@ public class DefaultMenuStrategy implements MenuStrategy {
         break;
       case 3:
         System.out.println("Visualizar catálogo");
-        catalogoLoja.exibirProdutos(input, usuarioLogado);
+        catalogoLoja.exibirProdutos(input, 0);
         break;
       case 4:
         System.out.println("Visualizar produto");

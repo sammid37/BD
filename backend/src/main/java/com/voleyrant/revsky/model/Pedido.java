@@ -26,6 +26,11 @@ public class Pedido {
     this.formaPagamento = formaPagamento;
     this.status = status;
   }
+//construtor sem argumentos
+  public Pedido() {
+
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -50,7 +55,7 @@ public class Pedido {
   public void setIdClientePedido(int idClientePedido) { this.idClientePedido = idClientePedido; }  
 
   public int getIdVendedorPedido() { return idVendedorPedido; }
-  public void setIdVendedorPedido(int idVendedorPedido) { this.idVendedorPedido = idVendedorPedido; }  
+  public void setIdVendedorPedido(int idVendedorPedido) { this.idVendedorPedido = idVendedorPedido; }
 
   public List<Produto> getItensPedido() { return produtos; }
   public void setItensPedido(List<Produto> produtos) { this.produtos = produtos; }  
